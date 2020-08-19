@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 
 namespace WordSearch
 {
@@ -59,7 +58,8 @@ namespace WordSearch
             Console.WriteLine("Found Words");
             Console.WriteLine("------------------------------");
 
-            FindWords();
+            //Modified to send in the rowNum and ColNum
+            FindWords(12,12);
 
             Console.WriteLine("------------------------------");
             Console.WriteLine("");
@@ -67,11 +67,33 @@ namespace WordSearch
             Console.ReadKey();
         }
 
-        private static void FindWords()
+        private static void FindWords(int rowNum, int columnNum)
         {
             //Find each of the words in the grid, outputting the start and end location of
             //each word, e.g.
             //PUPPY found at (10,7) to (10, 3) 
-        }
+
+            //Array Coordinates:Take (0,0) as the first offset
+            //(-1,-1) North West (-1,0) West (-1,1) South West (0,-1) North (0,1) South (1,-1) North East (1,0) East (1,1) South East
+
+            // Searching in all 8 direction
+            int[] rowDirection = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] colDirection = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+
+            for (int i = 0; i <= 10; i++)
+            {
+                // Get the word in a string
+                String word = Words[0];
+
+                for (int row = 0; row < rowNum; row++)
+                {
+                    for (int column = 0; column < columnNum; column++)
+                    {
+                        // the check starts here
+                    }
+                }
+            }
+        }  
     }
 }
