@@ -104,17 +104,17 @@ namespace WordSearch
                             for (int offset = 0; offset < 8; offset++)
                             {
                                 //for each co-ordinate, add the direction
+                                //
                                 int rowOffset = row + rowDirection[offset];
                                 int columnOffset = column + columnDirection[offset];
 
                                 int wordChar;
+
+                                //Start checking each letter in the grid
                                 for (wordChar = 1; wordChar < wordlength; wordChar++)
                                 {
-                                    if (rowOffset < 0 || columnOffset < 0)
-                                    {
-                                        break;
-                                    }
-                                    if (rowOffset >= rowNum || columnOffset >= columnNum)
+                                    //Check for out of bound, gave error for index out of bound exception
+                                    if (rowOffset < 0 || columnOffset < 0 || rowOffset >= rowNum || columnOffset >= columnNum)
                                     {
                                         break;
                                     }
@@ -123,20 +123,18 @@ namespace WordSearch
                                     if (Grid[rowOffset,columnOffset] != word[wordChar])
                                     {
                                         break;
-                                    }
-                                    // If out of bound break 
-                                    
+                                    }                               
 
-                                 
+                                    //Get the values and save it to find the end row and column
                                     rowEnd = rowOffset;
                                     columnEnd =columnOffset;
-                                    // Moving in particular direction 
+
+                                    // Next target
                                     rowOffset += rowDirection[offset];
                                     columnOffset += columnDirection[offset];
                                 }
 
-                                // If all character matched, then value of k 
-                                // must be equal to length of word 
+                                //Check for WordLength and Word Char Length are equal to print
                                 if (wordChar == wordlength)
                                 {
                                     Console.WriteLine(word + " found at (" + columnStart + "," + rowStart + ") to (" + columnEnd + "," + rowEnd + ")");
