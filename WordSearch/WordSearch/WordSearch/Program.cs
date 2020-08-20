@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Data;
 namespace WordSearch
 {
     class Program
@@ -58,8 +58,9 @@ namespace WordSearch
             Console.WriteLine("Found Words");
             Console.WriteLine("------------------------------");
 
+     
             //Modified to send in the rowNum and ColNum
-            FindWords(12, 12);
+            FindWords();
 
             Console.WriteLine("------------------------------");
             Console.WriteLine("");
@@ -67,11 +68,18 @@ namespace WordSearch
             Console.ReadKey();
         }
 
-        private static void FindWords(int rowNum, int columnNum)
+        private static void FindWords()
         {
             //Find each of the words in the grid, outputting the start and end location of
             //each word, e.g.
             //PUPPY found at (10,7) to (10, 3) 
+
+
+            //First get the row nd column length from the Grid.GridLength
+
+            int rowLength = Grid.GetLength(0);
+            int columnLength= Grid.GetLength(1);
+
 
             //Array Coordinates:Take (0,0) as the first offset
             //(-1,-1) North West (-1,0) West (-1,1) South West (0,-1) North (0,1) South (1,-1) North East (1,0) East (1,1) South East
@@ -90,9 +98,9 @@ namespace WordSearch
                 int wordlength = word.Length;
 
                 // Start with offset (0,0) to (ColNum,rowNum)
-                for (int row = 0; row < rowNum; row++)
+                for (int row = 0; row < rowLength; row++)
                 {
-                   for (int column = 0;column < columnNum; column++)
+                   for (int column = 0;column < columnLength; column++)
                         {
                         // the check starts here
                         if (Grid[row,column] == word[0])
@@ -114,7 +122,7 @@ namespace WordSearch
                                 for (wordChar = 1; wordChar < wordlength; wordChar++)
                                 {
                                     //Check for out of bound, gave error for index out of bound exception
-                                    if (rowOffset < 0 || columnOffset < 0 || rowOffset >= rowNum || columnOffset >= columnNum)
+                                    if (rowOffset < 0 || columnOffset < 0 || rowOffset >= rowLength || columnOffset >= columnLength)
                                     {
                                         break;
                                     }
