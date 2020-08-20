@@ -73,11 +73,11 @@ namespace WordSearch
         {
             //Array Coordinates:Take (0,0) as the first offset
             new GridCoordinates(0, -1), // North
-            new GridCoordinates(-1, 0), // West
-            new GridCoordinates(-1,-1), // North West
-            new GridCoordinates(1, 0),  // East
-            new GridCoordinates(1, -1), // North East
             new GridCoordinates(0, 1),  // South
+            new GridCoordinates(-1, 0), // West
+            new GridCoordinates(1, 0),  // East
+            new GridCoordinates(-1,-1), // North West
+            new GridCoordinates(1, -1), // North East
             new GridCoordinates(1, 1),  // South East 
             new GridCoordinates(-1, 1)  // South West
         };
@@ -138,6 +138,7 @@ namespace WordSearch
                                     {
                                         break;
                                     }
+
                                     //Get the values and save it to find the end row and column
                                     rowEnd = rowOffset;
                                     columnEnd =columnOffset;
@@ -147,7 +148,7 @@ namespace WordSearch
                                     columnOffset += directions[offset].Column;
                                 }
 
-                                //Check for WordLength and Word Char Length are equal, then print co-ordinates
+                                //If WordLength and Word Char Length are equal, then print co-ordinates
                                 if (wordChar == wordlength)
                                 {
                                     //Output presented as (Column,Row) format based on example provided
@@ -161,17 +162,7 @@ namespace WordSearch
             }
         }
     }
-    public class GridCoordinates
-    {
-        public GridCoordinates(int row, int column)
-        {
-            Row = row;
-            Column = column;
-        }
-
-        public int Row { get; set; }
-        public int Column { get; set; }
-    }
+  
 
    
 }
