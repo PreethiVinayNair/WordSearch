@@ -19,7 +19,7 @@ namespace WordSearch
             {'C', 'A', 'R', 'P', 'E', 'T', 'R', 'W', 'N', 'G', 'V', 'Z'}
         };
 
-        static string[] Words = new string[] 
+        static string[] Words = new string[]
         {
             "CARPET",
             "CHAIR",
@@ -59,7 +59,7 @@ namespace WordSearch
             Console.WriteLine("------------------------------");
 
             //Modified to send in the rowNum and ColNum
-            FindWords(12,12);
+            FindWords(12, 12);
 
             Console.WriteLine("------------------------------");
             Console.WriteLine("");
@@ -78,22 +78,78 @@ namespace WordSearch
 
             // Searching in all 8 direction
             int[] rowDirection = { -1, -1, -1, 0, 0, 1, 1, 1 };
-            int[] colDirection = { -1, 0, 1, -1, 1, -1, 0, 1 };
+            int[] columnDirection = { -1, 0, 1, -1, 1, -1, 0, 1 };
 
+            int rowStart, columnStart, rowEnd= 0, columnEnd =0;
 
-            for (int i = 0; i <= 10; i++)
+            //Take each word in the Words and start checking 
+            for (int eachWord = 0; eachWord <= Words.Length; eachWord++)
             {
-                // Get the word in a string
-                String word = Words[0];
+                // Get each word in a string
+                String word = Words[eachWord];
+                int wordlength = word.Length;
 
+                // Start with offset (0,0) to (ColNum,rowNum)
                 for (int row = 0; row < rowNum; row++)
                 {
-                    for (int column = 0; column < columnNum; column++)
-                    {
+                   for (int column = 0;column < columnNum; column++)
+                        {
                         // the check starts here
+                        if (Grid[row,column] == word[0])
+                        {
+                            rowStart = row;
+                            columnStart = column;
+
+                            // starting from (row, column) 
+                            for (int offset = 0; offset < 8; offset++)
+                            {
+                                //for each co-ordinate, add the direction
+                                int rowOffset = row + rowDirection[offset];
+                                int columnOffset = column + columnDirection[offset];
+
+                                int wordChar;
+                                for (wordChar = 1; wordChar < wordlength; wordChar++)
+                                {
+                                    if (rowOffset < 0 || columnOffset < 0)
+                                    {
+                                        break;
+                                    }
+                                    if (rowOffset >= rowNum || columnOffset >= columnNum)
+                                    {
+                                        break;
+                                    }
+
+                                    //If the character in the grid does not match to the character in the Word, move on to next one
+                                    if (Grid[rowOffset,columnOffset] != word[wordChar])
+                                    {
+                                        break;
+                                    }
+                                    // If out of bound break 
+                                    
+
+                                 
+                                    rowEnd = rowOffset;
+                                    columnEnd =columnOffset;
+                                    // Moving in particular direction 
+                                    rowOffset += rowDirection[offset];
+                                    columnOffset += columnDirection[offset];
+                                }
+
+                                // If all character matched, then value of k 
+                                // must be equal to length of word 
+                                if (wordChar == wordlength)
+                                {
+                                    Console.WriteLine(word + " found at (" + columnStart + "," + rowStart + ") to (" + columnEnd + "," + rowEnd + ")");
+                                    break;
+                                }
+                            }
+
+
+                        }
                     }
                 }
             }
-        }  
+        }
     }
+
 }
