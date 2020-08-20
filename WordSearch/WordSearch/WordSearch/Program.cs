@@ -68,6 +68,21 @@ namespace WordSearch
             Console.ReadKey();
         }
 
+        //Array of all 8 directions
+        private static GridCoordinates[] directions =
+        {
+            //Array Coordinates:Take (0,0) as the first offset
+            new GridCoordinates(0, -1), // North
+            new GridCoordinates(-1, 0), // West
+            new GridCoordinates(-1,-1), // North West
+            new GridCoordinates(1, 0),  // East
+            new GridCoordinates(1, -1), // North East
+            new GridCoordinates(0, 1),  // South
+            new GridCoordinates(1, 1),  // South East 
+            new GridCoordinates(-1, 1)  // South West
+        };
+
+
         private static void FindWords()
         {
             //Find each of the words in the grid, outputting the start and end location of
@@ -75,29 +90,21 @@ namespace WordSearch
             //PUPPY found at (10,7) to (10, 3) 
 
 
-            //First get the row nd column length from the Grid.GridLength
+            //First get the row and column length from the Grid
 
             int rowLength = Grid.GetLength(0);
             int columnLength= Grid.GetLength(1);
 
+            int rowStart =0, columnStart=0, rowEnd= 0, columnEnd =0;
 
-            //Array Coordinates:Take (0,0) as the first offset
-            //(-1,-1) North West (-1,0) West (-1,1) South West (0,-1) North (0,1) South (1,-1) North East (1,0) East (1,1) South East
-
-            // Searching in all 8 direction
-            int[] rowDirection = { -1, -1, -1, 0, 0, 1, 1, 1 };
-            int[] columnDirection = { -1, 0, 1, -1, 1, -1, 0, 1 };
-
-            int rowStart, columnStart, rowEnd= 0, columnEnd =0;
-
-            //Take each word in the Words and start checking 
-            for (int eachWord = 0; eachWord <= Words.Length; eachWord++)
+            //Take each word in the Words array and start checking 
+            for (int eachWord = 0; eachWord < Words.Length; eachWord++)
             {
-                // Get each word in a string
+                // Get each word into a string
                 String word = Words[eachWord];
                 int wordlength = word.Length;
 
-                // Start with offset (0,0) to (ColNum,rowNum)
+                // Start with offset (0,0) to  (rowLength,colLength)
                 for (int row = 0; row < rowLength; row++)
                 {
                    for (int column = 0;column < columnLength; column++)
@@ -108,13 +115,12 @@ namespace WordSearch
                             rowStart = row;
                             columnStart = column;
 
-                            // starting from (row, column) 
+                            // start the check in all 8 directions
                             for (int offset = 0; offset < 8; offset++)
                             {
                                 //for each co-ordinate, add the direction
-                                //
-                                int rowOffset = row + rowDirection[offset];
-                                int columnOffset = column + columnDirection[offset];
+                                int rowOffset = row + directions[offset].Row;
+                                int columnOffset = column + directions[offset].Column;
 
                                 int wordChar;
 
@@ -131,31 +137,41 @@ namespace WordSearch
                                     if (Grid[rowOffset,columnOffset] != word[wordChar])
                                     {
                                         break;
-                                    }                               
-
+                                    }
                                     //Get the values and save it to find the end row and column
                                     rowEnd = rowOffset;
                                     columnEnd =columnOffset;
 
                                     // Next target
-                                    rowOffset += rowDirection[offset];
-                                    columnOffset += columnDirection[offset];
+                                    rowOffset += directions[offset].Row;
+                                    columnOffset += directions[offset].Column;
                                 }
 
-                                //Check for WordLength and Word Char Length are equal to print
+                                //Check for WordLength and Word Char Length are equal, then print co-ordinates
                                 if (wordChar == wordlength)
                                 {
+                                    //Output presented as (Column,Row) format based on example provided
                                     Console.WriteLine(word + " found at (" + columnStart + "," + rowStart + ") to (" + columnEnd + "," + rowEnd + ")");
                                     break;
                                 }
                             }
-
-
                         }
                     }
                 }
             }
         }
     }
+    public class GridCoordinates
+    {
+        public GridCoordinates(int row, int column)
+        {
+            Row = row;
+            Column = column;
+        }
 
+        public int Row { get; set; }
+        public int Column { get; set; }
+    }
+
+   
 }
